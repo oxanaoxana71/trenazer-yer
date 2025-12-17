@@ -1,0 +1,650 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Правописание Ъ и Ь знаков</title>
+    <style>
+        :root {
+            --beige: #f5f5dc;
+            --chocolate: #d2691e;
+            --light-chocolate: #e8a76d;
+            --dark-chocolate: #8b4513;
+            --success: #4caf50;
+            --error: #f44336;
+            --text: #333333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--beige);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-top: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--chocolate);
+        }
+        
+        h1 {
+            color: var(--dark-chocolate);
+            margin-bottom: 10px;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--beige);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            color: var(--dark-chocolate);
+        }
+        
+        .word-container {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background-color: var(--beige);
+            border-radius: 10px;
+        }
+        
+        .word {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            color: var(--dark-chocolate);
+            min-height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .gap {
+            display: inline-block;
+            width: 60px;
+            height: 50px;
+            border-bottom: 3px solid var(--chocolate);
+            margin: 0 10px;
+            position: relative;
+        }
+        
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .option-btn {
+            padding: 15px 30px;
+            font-size: 28px;
+            font-weight: bold;
+            background-color: var(--chocolate);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+        
+        .option-btn:hover {
+            background-color: var(--light-chocolate);
+            transform: translateY(-3px);
+        }
+        
+        .option-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .option-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .feedback {
+            text-align: center;
+            min-height: 100px;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .success {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--success);
+        }
+        
+        .error {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--error);
+        }
+        
+        .correct-answer {
+            margin-top: 15px;
+            font-size: 22px;
+            color: var(--dark-chocolate);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .control-btn {
+            padding: 12px 25px;
+            font-size: 18px;
+            background-color: var(--dark-chocolate);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background-color: var(--chocolate);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: var(--beige);
+            border-radius: 5px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: var(--chocolate);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .results {
+            text-align: center;
+            padding: 30px;
+            background-color: var(--beige);
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+        
+        .results h2 {
+            color: var(--dark-chocolate);
+            margin-bottom: 20px;
+        }
+        
+        .results-stats {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .result-value {
+            color: var(--dark-chocolate);
+            font-weight: bold;
+        }
+        
+        .word-counter {
+            margin-top: 10px;
+            font-size: 16px;
+            color: var(--dark-chocolate);
+        }
+        
+        @media (max-width: 600px) {
+            .options {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .option-btn {
+                width: 100%;
+                max-width: 200px;
+            }
+            
+            .word {
+                font-size: 32px;
+                letter-spacing: 3px;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Правописание Ъ и Ь знаков</h1>
+            <p>Выберите правильный вариант для каждого слова</p>
+            <div class="word-counter">Всего слов в базе: <span id="total-words">86</span></div>
+        </header>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-label">Вопрос</div>
+                <div class="stat-value" id="current-question">1/50</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Правильно</div>
+                <div class="stat-value" id="correct-count">0</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Время</div>
+                <div class="stat-value" id="timer">00:00</div>
+            </div>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress-bar"></div>
+        </div>
+        
+        <div class="word-container">
+            <div class="word" id="word-display"></div>
+        </div>
+        
+        <div class="options">
+            <button class="option-btn" id="option-ъ">Ъ</button>
+            <button class="option-btn" id="option-ь">Ь</button>
+            <button class="option-btn" id="option-none">Ничего</button>
+        </div>
+        
+        <div class="feedback" id="feedback">
+            <div id="feedback-text">Выберите вариант ответа</div>
+            <div class="correct-answer" id="correct-answer"></div>
+        </div>
+        
+        <div class="controls">
+            <button class="control-btn" id="next-btn">Следующее слово</button>
+            <button class="control-btn" id="restart-btn">Начать заново</button>
+        </div>
+        
+        <div class="results hidden" id="results">
+            <h2>Результаты</h2>
+            <div class="results-stats">
+                <p>Правильных ответов: <span class="result-value" id="final-correct">0</span> из 50</p>
+                <p>Затраченное время: <span class="result-value" id="final-time">00:00</span></p>
+                <p>Процент правильных: <span class="result-value" id="final-percentage">0%</span></p>
+            </div>
+            <button class="control-btn" id="play-again-btn">Играть снова</button>
+        </div>
+    </div>
+
+    <script>
+    // Полный список слов (86 слов) с правильными ответами
+    const words = [
+        { word: "аб_юрация", answer: "ъ", full: "абъюрация" },
+        { word: "ад_ективный", answer: "ъ", full: "адъективный" },
+        { word: "ад_юнкт", answer: "ъ", full: "адъюнкт" },
+        { word: "ад_юнктура", answer: "ъ", full: "адъюнктура" },
+        { word: "ад_ютант", answer: "ъ", full: "адъютант" },
+        { word: "вз_ерепениться", answer: "ъ", full: "взъерепениться" },
+        { word: "в_явь", answer: "ъ", full: "въявь" },
+        { word: "гипер_яркий", answer: "ъ", full: "гиперъяркий" },
+        { word: "диз_юнкция", answer: "ъ", full: "дизъюнкция" },
+        { word: "из_ян", answer: "ъ", full: "изъян" },
+        { word: "из_ятие", answer: "ъ", full: "изъятие" },
+        { word: "ин_екционный", answer: "ъ", full: "инъекционный" },
+        { word: "ин_екция", answer: "ъ", full: "инъекция" },
+        { word: "ин_ецировать", answer: "ъ", full: "инъецировать" },
+        { word: "ин_юнктив", answer: "ъ", full: "инъюнктив" },
+        { word: "контр_ярус", answer: "ъ", full: "контръярус" },
+        { word: "кон_юнктива", answer: "ъ", full: "конъюнктива" },
+        { word: "кон_юнктивит", answer: "ъ", full: "конъюнктивит" },
+        { word: "кон_юнктура", answer: "ъ", full: "конъюнктура" },
+        { word: "кон_юнктурный", answer: "ъ", full: "конъюнктурный" },
+        { word: "кон_юнктурщик", answer: "ъ", full: "конъюнктурщик" },
+        { word: "необ_ятный", answer: "ъ", full: "необъятный" },
+        { word: "об_ект", answer: "ъ", full: "объект" },
+        { word: "об_ективный", answer: "ъ", full: "объективный" },
+        { word: "об_ятие", answer: "ъ", full: "объятие" },
+        { word: "пан_европейский", answer: "ъ", full: "панъевропейский" },
+        { word: "сверх_естественный", answer: "ъ", full: "сверхъестественный" },
+        { word: "суб_ект", answer: "ъ", full: "субъект" },
+        { word: "суб_ективность", answer: "ъ", full: "субъективность" },
+        { word: "супер_ёжик", answer: "ъ", full: "суперъёжик" },
+        { word: "супер_ёлка", answer: "ъ", full: "суперъёлка" },
+        { word: "супер_ядро", answer: "ъ", full: "суперъядро" },
+        { word: "супер_яхта", answer: "ъ", full: "суперъяхта" },
+        { word: "с_ёмный", answer: "ъ", full: "съёмный" },
+        { word: "транс_европейский", answer: "ъ", full: "трансъевропейский" },
+        { word: "фельд_егерь", answer: "ъ", full: "фельдъегерь" },
+        { word: "гипер_ядро", answer: "ъ", full: "гиперядро" },
+        { word: "ар_ьергард", answer: "ь", full: "арьергард" },
+        { word: "ател_е", answer: "ь", full: "ателье" },
+        { word: "бар_ер", answer: "ь", full: "барьер" },
+        { word: "батал_он", answer: "ь", full: "батальон" },
+        { word: "бил_ярд", answer: "ь", full: "бильярд" },
+        { word: "бул_он", answer: "ь", full: "бульон" },
+        { word: "бур_ян", answer: "ь", full: "бурьян" },
+        { word: "варен_е", answer: "ь", full: "варенье" },
+        { word: "вар_ировать", answer: "ь", full: "варьировать" },
+        { word: "В_етнам", answer: "ь", full: "Вьетнам" },
+        { word: "в_юн", answer: "ь", full: "вьюн" },
+        { word: "в_юнок", answer: "ь", full: "вьюнок" },
+        { word: "в_юшка", answer: "ь", full: "вьюшка" },
+        { word: "гил_отина", answer: "ь", full: "гильотина" },
+        { word: "д_явол", answer: "ь", full: "дьявол" },
+        { word: "д_як", answer: "ь", full: "дьяк" },
+        { word: "затиш_е", answer: "ь", full: "затишье" },
+        { word: "интерв_ю", answer: "ь", full: "интервью" },
+        { word: "интерв_юировать", answer: "ь", full: "интервьюировать" },
+        { word: "интер_ер", answer: "ь", full: "интерьер" },
+        { word: "кан_он", answer: "ь", full: "каньон" },
+        { word: "карман_ола", answer: "ь", full: "карманьола" },
+        { word: "колос_я", answer: "ь", full: "колосья" },
+        { word: "компан_он", answer: "ь", full: "компаньон" },
+        { word: "комп_ютер", answer: "ь", full: "компьютер" },
+        { word: "конферанс_е", answer: "ь", full: "конферансье" },
+        { word: "котил_он", answer: "ь", full: "котильон" },
+        { word: "кур_ёр", answer: "ь", full: "курьер" },
+        { word: "курь_ёзный", answer: "ь", full: "курьёзный" },
+        { word: "медал_он", answer: "ь", full: "медальон" },
+        { word: "многобор_е", answer: "ь", full: "многоборье" },
+        { word: "мыш_як", answer: "ь", full: "мышьяк" },
+        { word: "нав_ючить", answer: "ь", full: "навьючить" },
+        { word: "неб_ющийся", answer: "ь", full: "небьющийся" },
+        { word: "нич_я", answer: "ь", full: "ничья" },
+        { word: "обез_яна", answer: "ь", full: "обезьяна" },
+        { word: "олад_и", answer: "ь", full: "оладьи" },
+        { word: "павил_он", answer: "ь", full: "павильон" },
+        { word: "папил_отки", answer: "ь", full: "папильотки" },
+        { word: "пастуш_я", answer: "ь", full: "пастушья" },
+        { word: "под_ячий", answer: "ь", full: "подьячий" },
+        { word: "порт_ера", answer: "ь", full: "портьера" },
+        { word: "прем_ера", answer: "ь", full: "премьера" },
+        { word: "протод_якон", answer: "ь", full: "протодьякон" },
+        { word: "п_едестал", answer: "ь", full: "пьедестал" },
+        { word: "п_еса", answer: "ь", full: "пьеса" },
+        { word: "п_яный", answer: "ь", full: "пьяный" },
+        { word: "руж_ё", answer: "ь", full: "ружьё" },
+        { word: "сем_я", answer: "ь", full: "семья" },
+        { word: "сен_ор", answer: "ь", full: "сеньор" },
+        { word: "сер_ёзный", answer: "ь", full: "серьёзный" },
+        { word: "солов_и", answer: "ь", full: "соловьи" },
+        { word: "стар_ёвщик", answer: "ь", full: "старьёвщик" },
+        { word: "шампин_он", answer: "ь", full: "шампиньон" },
+        { word: "шин_он", answer: "ь", full: "шиньон" },
+        { word: "н_юанс", answer: "none", full: "нюанс" },
+        { word: "дет_ясли", answer: "none", full: "детясли" },
+        { word: "орг_единица", answer: "none", full: "оргединица" },
+        { word: "ин_яз", answer: "none", full: "иняз" },
+        { word: "ин_юрколлегия", answer: "none", full: "инюрколлегия" }
+    ];
+
+    // Переменные состояния игры
+    let currentQuestion = 0;
+    let correctAnswers = 0;
+    let gameActive = false;
+    let gameFinished = false;
+    let startTime;
+    let timerInterval;
+    let currentWords = [];
+    
+    // Элементы DOM
+    const wordDisplay = document.getElementById('word-display');
+    const currentQuestionElement = document.getElementById('current-question');
+    const correctCountElement = document.getElementById('correct-count');
+    const timerElement = document.getElementById('timer');
+    const progressBar = document.getElementById('progress-bar');
+    const feedback = document.getElementById('feedback');
+    const feedbackText = document.getElementById('feedback-text');
+    const correctAnswerElement = document.getElementById('correct-answer');
+    const nextBtn = document.getElementById('next-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const playAgainBtn = document.getElementById('play-again-btn');
+    const results = document.getElementById('results');
+    const finalCorrect = document.getElementById('final-correct');
+    const finalTime = document.getElementById('final-time');
+    const finalPercentage = document.getElementById('final-percentage');
+    const totalWordsElement = document.getElementById('total-words');
+    
+    // Кнопки вариантов ответов
+    const optionButtons = {
+        'ъ': document.getElementById('option-ъ'),
+        'ь': document.getElementById('option-ь'),
+        'none': document.getElementById('option-none')
+    };
+    
+    // Положительные и отрицательные сообщения
+    const positiveMessages = ["Ты лучший!", "Ты супер!", "Молодец!", "Отлично!", "Правильно!", "Браво!"];
+    const negativeMessages = ["Старайся!", "Учи правило!", "Неверно!", "Попробуй еще!", "Ошибка!"];
+    
+    // Инициализация игры
+    function initGame() {
+        currentQuestion = 0;
+        correctAnswers = 0;
+        gameActive = true;
+        gameFinished = false;
+        
+        // Выбираем случайные 50 слов из полного списка (86 слов)
+        currentWords = [...words].sort(() => Math.random() - 0.5).slice(0, 50);
+        
+        // Обновляем отображение
+        updateStats();
+        updateProgressBar();
+        showWord();
+        
+        // Скрываем результаты, показываем игровое поле
+        results.classList.add('hidden');
+        feedback.classList.remove('success', 'error');
+        feedbackText.textContent = "Выберите вариант ответа";
+        correctAnswerElement.textContent = "";
+        
+        // Запускаем таймер
+        startTimer();
+    }
+    
+    // Запуск таймера
+    function startTimer() {
+        startTime = new Date();
+        clearInterval(timerInterval);
+        
+        timerInterval = setInterval(() => {
+            const currentTime = new Date();
+            const elapsedTime = Math.floor((currentTime - startTime) / 1000);
+            
+            const minutes = Math.floor(elapsedTime / 60).toString().padStart(2, '0');
+            const seconds = (elapsedTime % 60).toString().padStart(2, '0');
+            
+            timerElement.textContent = `${minutes}:${seconds}`;
+        }, 1000);
+    }
+    
+    // Обновление статистики
+    function updateStats() {
+        currentQuestionElement.textContent = `${currentQuestion + 1}/50`;
+        correctCountElement.textContent = correctAnswers;
+    }
+    
+    // Обновление прогресс-бара
+    function updateProgressBar() {
+        const progress = ((currentQuestion) / 50) * 100;
+        progressBar.style.width = `${progress}%`;
+    }
+    
+    // Отображение текущего слова - ИСПРАВЛЕНА ОШИБКА
+    function showWord() {
+        const currentWordData = currentWords[currentQuestion];
+        const wordWithGap = currentWordData.word;
+        
+        // Разделяем слово по символу пропуска (_)
+        const parts = wordWithGap.split('_');
+        
+        // Создаем HTML для отображения слова с пропуском
+        let wordHTML = '';
+        
+        if (parts[0]) wordHTML += `<span>${parts[0]}</span>`;
+        wordHTML += `<div class="gap"></div>`;
+        if (parts[1]) wordHTML += `<span>${parts[1]}</span>`;
+        
+        wordDisplay.innerHTML = wordHTML;
+        
+        // Сбрасываем отзыв
+        feedback.classList.remove('success', 'error');
+        feedbackText.textContent = "Выберите вариант ответа";
+        correctAnswerElement.textContent = "";
+        
+        // ВАЖНО: Разблокируем кнопки вариантов для нового слова
+        Object.values(optionButtons).forEach(btn => {
+            btn.disabled = false;
+        });
+        
+        // Делаем кнопку "Следующее слово" неактивной
+        nextBtn.disabled = true;
+    }
+    
+    // Проверка выбранного ответа
+    function checkAnswer(selectedAnswer) {
+        if (!gameActive || gameFinished) return;
+        
+        const currentWordData = currentWords[currentQuestion];
+        const correctAnswer = currentWordData.answer;
+        
+        // Отключаем кнопки вариантов после выбора
+        Object.values(optionButtons).forEach(btn => {
+            btn.disabled = true;
+        });
+        
+        // Определяем, правильный ли ответ
+        const isCorrect = selectedAnswer === correctAnswer;
+        
+        // Обновляем счетчик правильных ответов
+        if (isCorrect) {
+            correctAnswers++;
+            correctCountElement.textContent = correctAnswers;
+        }
+        
+        // Показываем отзыв
+        if (isCorrect) {
+            const randomMessage = positiveMessages[Math.floor(Math.random() * positiveMessages.length)];
+            feedbackText.textContent = randomMessage;
+            feedback.classList.remove('error');
+            feedback.classList.add('success');
+        } else {
+            const randomMessage = negativeMessages[Math.floor(Math.random() * negativeMessages.length)];
+            feedbackText.textContent = randomMessage;
+            feedback.classList.remove('success');
+            feedback.classList.add('error');
+        }
+        
+        // Показываем правильный ответ
+        correctAnswerElement.textContent = `Правильно: ${currentWordData.full}`;
+        
+        // Активируем кнопку "Следующее слово"
+        nextBtn.disabled = false;
+    }
+    
+    // Переход к следующему слову
+    function nextWord() {
+        if (!gameActive) return;
+        
+        currentQuestion++;
+        updateStats();
+        updateProgressBar();
+        
+        if (currentQuestion >= 50) {
+            finishGame();
+        } else {
+            showWord();
+        }
+    }
+    
+    // Завершение игры
+    function finishGame() {
+        gameActive = false;
+        gameFinished = true;
+        clearInterval(timerInterval);
+        
+        // Рассчитываем процент правильных ответов
+        const percentage = Math.round((correctAnswers / 50) * 100);
+        
+        // Обновляем результаты
+        finalCorrect.textContent = `${correctAnswers} из 50`;
+        finalTime.textContent = timerElement.textContent;
+        finalPercentage.textContent = `${percentage}%`;
+        
+        // Показываем экран результатов
+        results.classList.remove('hidden');
+    }
+    
+    // Показать общее количество слов в базе
+    function showTotalWordsCount() {
+        totalWordsElement.textContent = words.length;
+    }
+    
+    // Обработчики событий для кнопок вариантов
+    optionButtons['ъ'].addEventListener('click', () => checkAnswer('ъ'));
+    optionButtons['ь'].addEventListener('click', () => checkAnswer('ь'));
+    optionButtons['none'].addEventListener('click', () => checkAnswer('none'));
+    
+    // Обработчики для кнопок управления
+    nextBtn.addEventListener('click', nextWord);
+    restartBtn.addEventListener('click', initGame);
+    playAgainBtn.addEventListener('click', initGame);
+    
+    // Инициализация игры при загрузке страницы
+    window.addEventListener('load', () => {
+        showTotalWordsCount();
+        initGame();
+    });
+</script>
+</body>
+</html>
